@@ -29,6 +29,42 @@
         }
       },
       {
+        "package": "aws-sdk-swift",
+        "repositoryURL": "https://github.com/swift-aws/aws-sdk-swift.git",
+        "state": {
+          "branch": null,
+          "revision": "eeb30fac3d95a377d8c5bb4b33efed932061f42d",
+          "version": "5.0.0-alpha.3"
+        }
+      },
+      {
+        "package": "aws-sdk-swift-core",
+        "repositoryURL": "https://github.com/swift-aws/aws-sdk-swift-core.git",
+        "state": {
+          "branch": null,
+          "revision": "ccea4b98758e9e8bb907a4dc9bb15d01d8a3c736",
+          "version": "5.0.0-alpha.3.2"
+        }
+      },
+      {
+        "package": "Plot",
+        "repositoryURL": "https://github.com/johnsundell/plot.git",
+        "state": {
+          "branch": null,
+          "revision": "e81e059e39603a6c01cd157bc8fb6f1ffbfa7cf5",
+          "version": "0.7.0"
+        }
+      },
+      {
+        "package": "swift-crypto",
+        "repositoryURL": "https://github.com/apple/swift-crypto.git",
+        "state": {
+          "branch": null,
+          "revision": "d67ac68d09a95443303e9d6e37b34e7ba101d5f1",
+          "version": "1.0.1"
+        }
+      },
+      {
         "package": "swift-nio",
         "repositoryURL": "https://github.com/apple/swift-nio.git",
         "state": {
@@ -53,6 +89,15 @@
           "branch": null,
           "revision": "af46d9b58fafbb76f9b01177568d435a1b024f99",
           "version": "2.6.2"
+        }
+      },
+      {
+        "package": "swift-nio-transport-services",
+        "repositoryURL": "https://github.com/apple/swift-nio-transport-services.git",
+        "state": {
+          "branch": null,
+          "revision": "c7f06384dc5ce7e8506de5ed9b59e35b4d88c64b",
+          "version": "1.3.0"
         }
       }
     ]

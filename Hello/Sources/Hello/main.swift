@@ -17,46 +17,18 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
+import AWSDynamoDB
 import LambdaSwiftSprinter
 import LambdaSwiftSprinterNioPlugin
 import NIO
 import NIOFoundationCompat
+import NIOHTTP1
+import ProductService
+import WebController
 
-struct Event: Codable {
-
-}
-
-public struct APIGatewayProxyResult: Codable {
-
-    public let isBase64Encoded: Bool?
-    public let statusCode: Int
-    public let headers: [String: String]?
-    public let multiValueHeaders: [String: [String]]?
-    public let body: String
-
-    public init(isBase64Encoded: Bool? = false,
-                statusCode: Int,
-                headers: [String: String]? = nil,
-                multiValueHeaders: [String: [String]]? = nil,
-                body: String) {
-        self.isBase64Encoded = isBase64Encoded
-        self.statusCode = statusCode
-        self.headers = headers
-        self.multiValueHeaders = multiValueHeaders
-        self.body = body
-    }
-}
-
-enum MyLambdaError: Error {
+enum HelloError: Error {
     case invalidEvent
-}
-
-let hello: SyncCodableNIOLambda<Event, APIGatewayProxyResult> = { (event, context) throws -> EventLoopFuture<APIGatewayProxyResult> in
-    
-    let eventLoop = httpClient.eventLoopGroup.next()
-    let response = APIGatewayProxyResult(statusCode: 200, body: "HelloWorld!")
-    let future = eventLoop.makeSucceededFuture(response)
-    return future
+    case tableNameNotFound
 }
 
 public func log(_ object: Any, flush: Bool = false) {
@@ -64,6 +36,44 @@ public func log(_ object: Any, flush: Bool = false) {
     if flush {
         fflush(stderr)
     }
+}
+
+let localStackDB = "DB"
+let tableName = ProcessInfo.processInfo.environment["PRODUCTS_TABLE_NAME"] ?? localStackDB
+
+let region: Region
+
+if let awsRegion = ProcessInfo.processInfo.environment["AWS_REGION"] {
+    let value = Region(rawValue: awsRegion)
+    region = value
+    log("AWS_REGION: \(region)")
+} else {
+    // Default configuration
+    region = .useast1
+    log("AWS_REGION: us-east-1")
+}
+
+let awsClient: AWSHTTPClient = httpClient as! AWSHTTPClient
+
+let db = DynamoDB(region: region, httpClientProvider: .shared(awsClient))
+
+let service = ProductService(db: db, tableName: tableName)
+let controller = ProductController(service: service)
+
+struct Event: Codable {
+    let body: [String: String]
+}
+
+let hello: SyncCodableNIOLambda<APIGatewayProxySimpleEvent, APIGatewayProxyResult> = { (event, context) throws -> EventLoopFuture<APIGatewayProxyResult> in
+    
+    let queryString = event.body?.replacingOccurrences(of: "+", with: "%20") ?? ""
+    let webController = WebController(queryString: queryString, controller: controller)
+    webController.update()
+    let body = webController.render()
+    let eventLoop = httpClient.eventLoopGroup.next()
+    let response = APIGatewayProxyResult(statusCode: 200, body: body)
+    let future = eventLoop.makeSucceededFuture(response)
+    return future
 }
 
 do {
