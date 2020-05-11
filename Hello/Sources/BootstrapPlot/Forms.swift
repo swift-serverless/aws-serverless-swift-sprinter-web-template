@@ -16,36 +16,33 @@ import Foundation
 import Plot
 
 public extension Node where Context: HTML.FormContext {
+    
+    static func div(_ nodes: Node<HTML.FormContext>...) -> Node {
+        .element(named: "div", nodes: nodes)
+    }
+    
     static func formGroup(_ nodes: Node<HTML.FormContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("form-group"))
-        return .element(named: "div", nodes: nodes)
+        .div(.class("form-group"), .group(nodes))
     }
 
     static func label(_ nodes: Node<HTML.BodyContext>...) -> Node {
-        return .element(named: "label", nodes: nodes)
+        .element(named: "label", nodes: nodes)
     }
 
     static func label(_ nodes: Node<HTML.FormContext>...) -> Node {
-        return .element(named: "label", nodes: nodes)
+        .element(named: "label", nodes: nodes)
     }
 
     static func formControl(_ nodes: Node<HTML.FormContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("form-control"))
-        return .element(named: "div", nodes: nodes)
+        .div(.class("form-control"), .group(nodes))
     }
 
     static func formRow(_ nodes: Node<HTML.FormContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("form-row"))
-        return .element(named: "div", nodes: nodes)
+        .div(.class("form-row"), .group(nodes))
     }
 
     static func formCol(_ nodes: Node<HTML.FormContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("form-col"))
-        return .element(named: "div", nodes: nodes)
+        .div(.class("form-col"), .group(nodes))
     }
 }
 

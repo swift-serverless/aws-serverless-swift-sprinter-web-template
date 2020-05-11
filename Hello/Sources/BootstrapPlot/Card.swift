@@ -17,44 +17,30 @@ import Plot
 
 public extension Node where Context: HTML.BodyContext {
     static func card(_ nodes: Node<HTML.BodyContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("card"))
-        return .element(named: "div", nodes: nodes)
+        .div(.class("card"), .group(nodes))
     }
 
     static func cardHeader(_ nodes: Node<HTML.BodyContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("card-header"))
-        return .element(named: "div", nodes: nodes)
+        .div(.class("card-header"), .group(nodes))
     }
 
     static func cardBody(_ nodes: Node<HTML.BodyContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("card-body"))
-        return .element(named: "div", nodes: nodes)
+        .div(.class("card-body"), .group(nodes))
     }
 
     static func cardText(_ nodes: Node<HTML.BodyContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("card-text"))
-        return .element(named: "div", nodes: nodes)
+        .div(.class("card-text"), .group(nodes))
     }
 
     static func cardTitle(_ nodes: Node<HTML.BodyContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("card-title"))
-        return .element(named: "div", nodes: nodes)
+        .div(.class("card-title"), .group(nodes))
     }
 
     static func cardSubtitle(_ nodes: Node<HTML.BodyContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("card-subtitle"))
-        return .element(named: "div", nodes: nodes)
+        .div(.class("card-subtitle"), .group(nodes))
     }
     
     static func cardFooterMuted(_ nodes: Node<HTML.BodyContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("card-footer text-muted"))
-        return .element(named: "div", nodes: nodes)
+        .div(.class("card-footer text-muted"), .group(nodes))
     }
 }

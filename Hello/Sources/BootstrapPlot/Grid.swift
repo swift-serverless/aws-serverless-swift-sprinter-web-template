@@ -44,27 +44,19 @@ public extension Node where Context: HTML.BodyContext {
     }
 
     static func row(_ nodes: Node<HTML.BodyContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("row"))
-        return .element(named: "div", nodes: nodes)
+        .div(.class("row"), .group(nodes))
     }
 
     static func col(_ nodes: Node<HTML.BodyContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("col"))
-        return .element(named: "div", nodes: nodes)
+        .div(.class("col"), .group(nodes))
     }
 
     static func col(size: GridSize, _ nodes: Node<HTML.BodyContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(size.class(name: "col"))
-        return .element(named: "div", nodes: nodes)
+        .div(size.class(name: "col"), .group(nodes))
     }
     
     static func col(sizes: [GridSize], _ nodes: Node<HTML.BodyContext>...) -> Node {
-        var nodes = nodes
         let name = sizes.reduce("") { value,size  in return "\(value) col\(size.name)" }
-        nodes.append(.class(name))
-        return .element(named: "div", nodes: nodes)
+        return .div(.class(name), .group(nodes))
     }
 }

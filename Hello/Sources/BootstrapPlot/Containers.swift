@@ -17,14 +17,10 @@ import Plot
 
 public extension Node where Context: HTML.BodyContext {
     static func container(_ nodes: Node<HTML.BodyContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(.class("container"))
-        return .element(named: "div", nodes: nodes)
+        return .div(.class("container"), .group(nodes))
     }
 
     static func container(size: BootstrapSize, _ nodes: Node<HTML.BodyContext>...) -> Node {
-        var nodes = nodes
-        nodes.append(size.class(name: "container"))
-        return .element(named: "div", nodes: nodes)
+        return .div(size.class(name: "container"), .group(nodes))
     }
 }
